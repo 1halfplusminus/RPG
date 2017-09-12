@@ -8,7 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "Animation/AnimInstance.h"
 //////////////////////////////////////////////////////////////////////////
 // APlayableCharacter
 
@@ -56,6 +56,8 @@ void APlayableCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	PlayerInputComponent->BindAction("Spell", IE_Pressed, this, &APlayableCharacter::CastSpell);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayableCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayableCharacter::MoveRight);
@@ -132,7 +134,15 @@ void APlayableCharacter::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
-
+void APlayableCharacter::CastSpell()
+{
+	if (CastingOneHandAnimation)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("Casting a spell"))
+		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+		AnimInstance->Montage_Play(CastingOneHandAnimation);
+	}
+}
 
 float APlayableCharacter::GetHealth() const
 {

@@ -29,6 +29,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UFUNCTION(BlueprintCallable)
+	void CastSpell();
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -66,6 +68,10 @@ protected:
 	float Health;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Attribute)
 	float Mana;
+
+	/** Animation Instance used for 1 hand casting */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Animation, meta = (DisplayName = "Casting One Hand Animation"))
+	class UAnimMontage* CastingOneHandAnimation;
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
